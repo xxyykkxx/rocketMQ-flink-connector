@@ -24,6 +24,7 @@ import org.apache.rocketmq.flink.source.reader.RocketMQPartitionSplitReader;
 import org.apache.rocketmq.flink.source.split.RocketMQPartitionSplit;
 
 import org.apache.flink.api.java.tuple.Tuple3;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.base.source.reader.RecordsWithSplitIds;
 import org.apache.flink.connector.base.source.reader.SourceReaderBase;
 import org.apache.flink.connector.base.source.reader.fetcher.SingleThreadFetcherManager;
@@ -61,7 +62,7 @@ public class RocketMQSourceFetcherManager<T>
             Supplier<SplitReader<Tuple3<T, Long, Long>, RocketMQPartitionSplit>>
                     splitReaderSupplier,
             Consumer<Collection<String>> splitFinishedHook) {
-        super(elementsQueue, splitReaderSupplier, splitFinishedHook);
+        super(splitReaderSupplier, new Configuration(), splitFinishedHook);
     }
 
     public void commitOffsets(
